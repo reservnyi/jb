@@ -10,95 +10,7 @@ public class DateConverter {
 	private JewishDate mJewishDate;
 	private JewishDate mJewishDateTmp = null;
 		
-	public static String getGregorianMonthFromInt(int month) {
-
-		if (month < 0 || month > 11) {
-			throw new IllegalArgumentException("The Gregorian"
-					+ " month has to be between 0 - 11." + month
-					+ " is invalid");
-		}
-
-		String monthString = "";
-
-		switch (month) {
-		case 0:
-			monthString = "Jan";
-			break;
-		case 1:
-			monthString = "Feb";
-			break;
-		case 2:
-			monthString = "Mar";
-			break;
-		case 3:
-			monthString = "Apr";
-			break;
-		case 4:
-			monthString = "May";
-			break;
-		case 5:
-			monthString = "Jun";
-			break;
-		case 6:
-			monthString = "Jul";
-			break;
-		case 7:
-			monthString = "Aug";
-			break;
-		case 8:
-			monthString = "Sep";
-			break;
-		case 9:
-			monthString = "Oct";
-			break;
-		case 10:
-			monthString = "Nov";
-			break;
-		case 11:
-			monthString = "Dec";
-			break;
-		}
-
-		return monthString;
-	}
 	
-	public static String getDayOfWeekFromInt(int numberOfDay) {
-
-		if (numberOfDay < 1 || numberOfDay > 7) {
-			throw new IllegalArgumentException("The week"
-					+ " day has to be between 1 - 7." + numberOfDay
-					+ " is invalid");
-		}
-
-		String dayOfWeek = "";
-
-		switch (numberOfDay) {
-		case 1:
-			dayOfWeek = "Sun";
-			break;
-		case 2:
-			dayOfWeek = "Mon";
-			break;
-		case 3:
-			dayOfWeek = "Tue";
-			break;
-		case 4:
-			dayOfWeek = "Wed";
-			break;
-		case 5:
-			dayOfWeek = "Thu";
-			break;
-		case 6:
-			dayOfWeek = "Fri";
-			break;
-		case 7:
-			dayOfWeek = "Sat";
-			break;
-		}
-
-		return dayOfWeek;
-	}
-
 	public DateConverter() {
 		mJewishDate = new JewishDate();
 	}
@@ -127,7 +39,7 @@ public class DateConverter {
 		return mJewishDate.getJewishDayOfMonth();
 	}
 
-	public ArrayList<String> getPredictedDates(int quantityToPredict) {
+	public ArrayList<BDayDate> getPredictedDates(int quantityToPredict) {
 
 		Time time = new Time();
 		time.setToNow();
@@ -145,18 +57,13 @@ public class DateConverter {
 		mJewishDateTmp.setJewishYear(mJewishDateTmp.getJewishYear()
 				+ (time.year - mJewishDateTmp.getGregorianYear()));
 
-		ArrayList<String> predictedDates = new ArrayList<String>(
+		ArrayList<BDayDate> predictedDates = new ArrayList<BDayDate>(
 				quantityToPredict);
 
 		for (int i = 0; i < quantityToPredict; ++i) {
-
-			predictedDates.add(getDayOfWeekFromInt(mJewishDateTmp.getDayOfWeek())
-					+ " "
-					+ mJewishDateTmp.getGregorianDayOfMonth()
-					+ "-"
-					+ getGregorianMonthFromInt(mJewishDateTmp
-							.getGregorianMonth()) + "-"
-					+ mJewishDateTmp.getGregorianYear());
+			
+			predictedDates.add(new BDayDate(mJewishDateTmp.getGregorianYear(), mJewishDateTmp
+					.getGregorianMonth(), mJewishDateTmp.getGregorianDayOfMonth(), mJewishDateTmp.getDayOfWeek()));
 
 			mJewishDateTmp.setJewishYear(mJewishDateTmp.getJewishYear() + 1);
 		}
